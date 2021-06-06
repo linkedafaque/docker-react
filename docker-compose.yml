@@ -1,0 +1,19 @@
+version: '3' # docker version
+services:
+  web: # creates a separate container for web
+    build:
+      context: . # where do we want the file and folders to come from
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules # dont map /app/node_modules
+      - .:/app # map current folder outside the container to /app inside the container
+  tests: # creates a separate container for tests
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"] # this overrides the command in Dockerfile.dev
