@@ -7,5 +7,5 @@ before_install: # steps before our project is deployed
   - docker build -t afaque205/docker-react -f Dockerfile.dev . 
 
 script: # commands that need to be executed to run our test suite
-  - docker run -e CI=true USERNAME/docker-react npm run test
+  - docker run -e CI=true afaque205/docker-react npm run test
   # CI=true makes run in CI-mode, and tests will only run once instead of launching the watcher.
