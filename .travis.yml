@@ -9,3 +9,17 @@ before_install: # steps before our project is deployed
 script: # commands that need to be executed to run our test suite
   - docker run -e CI=true afaque205/docker-react npm run test
   # CI=true makes run in CI-mode, and tests will only run once instead of launching the watcher.
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react"
+  env: "Dockerreact-env"
+  # travis zips and puts all of the application code into this S3 bucket for deployment.
+  bucket_name: "elasticbeanstalk-us-east-1-735534526529" 
+  bucket_path: "docker-react" # ebs creates a folder with the same app name inside the bucket
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: "$AWS_SECRET_KEY"
