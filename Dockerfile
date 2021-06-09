@@ -1,6 +1,6 @@
 # Build Phase - Container 1
 # Construct 'build ' folder npm run build
-FROM node:alpine as builder
+FROM node:alpine
 WORKDIR '/app'
 COPY package.json .
 RUN npm install
@@ -11,7 +11,8 @@ RUN npm run build
 # Copy build output (stuff we care about in production)
 # Run nginx
 FROM nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 80 # beanstalk looks at this and exports port 80 for us
+COPY --from=0 /app/build /usr/share/nginx/html
 
 # Default command for nginx contianer will start nginx for us,
 # we dont have to run anything.
